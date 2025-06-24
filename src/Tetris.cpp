@@ -25,6 +25,7 @@ int speedCounter = 0;
 bool pieceHitFloor = false;
 bool gameOver = false;
 bool menu = true;
+bool music = true;
 int score = 0;
 int level = 1;
 int levelLines = 0;
@@ -185,7 +186,8 @@ void loadTextures(RenderWindow &window)
 	gameOverLinesText.loadFromRenderedText("TOTAL LINES:", white, window.renderer, pixelFont);
 	gameOverLinesValText.loadFromRenderedText(std::to_string(totalLines), white, window.renderer, pixelFont);
 	playText.loadFromRenderedText("PLAY", white, window.renderer, pixelFont);
-	settingsText.loadFromRenderedText("SETTINGS", white, window.renderer, pixelFont);
+	musicText.loadFromRenderedText("MUSIC: ", white, window.renderer, pixelFont);
+	musicOnText.loadFromRenderedText("ON", white, window.renderer, pixelFont);
 	quitText.loadFromRenderedText("QUIT", white, window.renderer, pixelFont);
 	restartText.loadFromRenderedText("RESTART", white, window.renderer, pixelFont);
 	gameBackToMenuText.loadFromRenderedText("BACK TO MENU", white, window.renderer, pixelFont);
@@ -212,9 +214,13 @@ void Tetris(RenderWindow &window)
 	while (gameRunning)
 	{
  		this_thread::sleep_for(50ms);
-		if (Mix_PlayingMusic() == 0)
+		if (Mix_PlayingMusic() == 0 && music == true)
 		{
 			Mix_PlayMusic(tetrisMusic, -1);
+		}
+		else if (music == false)
+		{
+			Mix_HaltMusic();
 		}
 		if (!menu && !gameOver)
 		{
@@ -288,10 +294,22 @@ void Tetris(RenderWindow &window)
 				}
 				if (e.key.keysym.sym == SDLK_SPACE && menu == true)
 				{
-					if (menuSelection == 1)
+					if (menuSelection == PLAY)
 					{
 						menu = false;
 						resetGame(window);
+					}
+					else if (menuSelection == SETTINGS)
+					{
+						music = !music;
+						if(music == true)
+							musicOnText.loadFromRenderedText("ON", white, window.renderer, pixelFont);
+						else
+							musicOnText.loadFromRenderedText("OFF", white, window.renderer, pixelFont);
+					}
+					else if (menuSelection == QUIT)
+					{
+						gameRunning = false;
 					}
 				}
 				if (e.key.keysym.sym == SDLK_DOWN && gameOver == true)
@@ -358,24 +376,25 @@ void Tetris(RenderWindow &window)
 			if(menuSelection == 1)
 			{
 				playText.loadFromRenderedText(">PLAY", white, window.renderer, pixelFont);
-				settingsText.loadFromRenderedText("SETTINGS", white, window.renderer, pixelFont);
+				musicText.loadFromRenderedText("MUSIC: ", white, window.renderer, pixelFont);
 				quitText.loadFromRenderedText("QUIT", white, window.renderer, pixelFont);
 			}
 			else if (menuSelection == 2)
 			{
 				playText.loadFromRenderedText("PLAY", white, window.renderer, pixelFont);
-				settingsText.loadFromRenderedText(">SETTINGS", white, window.renderer, pixelFont);
+				musicText.loadFromRenderedText(">MUSIC: ", white, window.renderer, pixelFont);
 				quitText.loadFromRenderedText("QUIT", white, window.renderer, pixelFont);
 			}
 			else if (menuSelection == 3)
 			{
 				playText.loadFromRenderedText("PLAY", white, window.renderer, pixelFont);
-				settingsText.loadFromRenderedText("SETTINGS", white, window.renderer, pixelFont);
+				musicText.loadFromRenderedText("MUSIC: ", white, window.renderer, pixelFont);
 				quitText.loadFromRenderedText(">QUIT", white, window.renderer, pixelFont);
 			}
 
 			playText.render((680 - playText.getWidth()) / 2, 300, window.renderer);
-			settingsText.render((680 - settingsText.getWidth()) / 2, 400, window.renderer);
+			musicText.render((680 - musicText.getWidth()) / 2, 400, window.renderer);
+			musicOnText.render(400, 400, window.renderer);
 			quitText.render((680 - quitText.getWidth()) / 2, 500, window.renderer);
 		}
 		else if (!menu)
@@ -499,7 +518,7 @@ void Tetris(RenderWindow &window)
 			}
 
 			restartText.render((680 - playText.getWidth()) / 2, 400, window.renderer);
-			gameBackToMenuText.render((680 - settingsText.getWidth()) / 2, 500, window.renderer);
+			gameBackToMenuText.render((680 - gameBackToMenuText.getWidth()) / 2, 500, window.renderer);
 		}
 
 
