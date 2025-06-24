@@ -75,7 +75,7 @@
     <LibraryPath>C:\Dev\SDL2 ttf\lib\x64;C:\Dev\SDL2 mixer\lib\x64;C:\Dev\SDL2 Image\lib\x64;C:\Dev\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Dev\SDL2 mixer\include;C:\Dev\SDL2 Image\include;C:\Dev\SDL2 ttf\include;C:\Dev\SDL2\include;C:\Dev\Visual Studio Projects\TetrisSDL\inc;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Dev\Visual Studio Projects\TetrisSDL\res\dlls;C:\Dev\SDL2 mixer\include;C:\Dev\SDL2 Image\include;C:\Dev\SDL2 ttf\include;C:\Dev\SDL2\include;C:\Dev\Visual Studio Projects\TetrisSDL\inc;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Dev\SDL2 ttf\lib\x64;C:\Dev\SDL2 mixer\lib\x64;C:\Dev\SDL2 Image\lib\x64;C:\Dev\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
